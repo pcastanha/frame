@@ -1,0 +1,16 @@
+[paths]
+source =
+   src/softframe
+   */site-packages/softframe
+
+[run]
+branch = true
+source =
+    softframe
+    tests
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
