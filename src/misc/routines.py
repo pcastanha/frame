@@ -70,7 +70,7 @@ def read_and_convert(path):
         print("Done...")
 
 
-def classify_paragraphs(html):
+def classify_paragraphs(html, use_paragraph=True):
     parser = Parser()
     # 'phantomjs.exe' executable needs to be in PATH
     driver = webdriver.PhantomJS("../misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
@@ -92,12 +92,26 @@ def classify_paragraphs(html):
 
     for paragraph in paragraphs:
         raw_text = paragraph.text_content()
-        sentences = parser.sentence_extractor(raw_text)
 
-        for sentence in sentences:
+        if use_paragraph is False:
+            sentences = parser.sentence_extractor(raw_text)
+
+            for sentence in sentences:
+                driver.get(path)
+                try:
+                    text_to_find = sentence.strip()
+                    classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
+                    javascript_string = \
+                        json.dumps("window.find('{}'); return window.getSelection().getRangeAt(0);".format(text_to_find),
+                                   ensure_ascii=False)
+                    path_object = driver.execute_script(javascript_string[1:-1])  # Remove leading and trailing quotes
+                    response.append({"prediction": classification, "path": path_object})
+                except Exception as e:
+                    print(javascript_string)
+        else:
             driver.get(path)
             try:
-                text_to_find = sentence.strip()
+                text_to_find = raw_text.strip()
                 classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
                 javascript_string = \
                     json.dumps("window.find('{}'); return window.getSelection().getRangeAt(0);".format(text_to_find),
