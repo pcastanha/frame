@@ -18,7 +18,7 @@ import getopt
 import sys
 from time import time
 
-from misc.routines import read_and_convert
+from softframe.misc.routines import read_and_convert
 
 
 def main(argv=sys.argv):

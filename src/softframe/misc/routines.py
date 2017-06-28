@@ -3,12 +3,12 @@ import os
 import tempfile
 from time import time
 
+from softframe.classification import lib
+from softframe.classification.app import classificar_documento_para_tipo
+from softframe.processing.utils import Parser
 from selenium import webdriver
 
-from classification import lib
-from classification.app import classificar_documento_para_tipo
-from database.connection import DatabaseConnector
-from processing.utils import Parser
+from softframe.database import DatabaseConnector
 
 
 def read_and_convert(path):
@@ -132,7 +132,8 @@ if __name__ == '__main__':
     with open("C:/Users/pedro.castanha/Downloads/file_1.html", encoding="utf8", mode='r') as f:
         html_string = f.read()
 
-    locations = classify_paragraphs(html_string)
+    #locations = classify_paragraphs(html_string)
+    locations = None
     t0 = time() - t0
 
     print("Done in {}".format(t0))

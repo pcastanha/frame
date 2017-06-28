@@ -1,19 +1,15 @@
-import os
 import abc
+import os
 import tempfile
-
-from time import time
-
 from multiprocessing import Pool
-
-import database as con
-
-from selenium import webdriver
+from time import time
 
 from lxml import etree
 from lxml.html import fromstring
-
 from nltk.tokenize import word_tokenize
+from selenium import webdriver
+
+from softframe import database as con
 
 
 class ParallelInterface(object):

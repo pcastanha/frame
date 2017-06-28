@@ -1,9 +1,9 @@
 from flask import Flask
-from flask_restful import Api
 from flask import jsonify, make_response
 from flask_httpauth import HTTPBasicAuth
+from flask_restful import Api
 
-from rest.endpoints import Endpoints
+from softframe.rest import Endpoints
 
 __version__ = "0.1.0"
 

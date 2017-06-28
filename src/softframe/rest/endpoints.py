@@ -3,7 +3,7 @@ from enum import Enum, unique
 from flask import abort
 from flask_restful import Resource, reqparse, fields, marshal
 
-from misc.routines import classify_paragraphs
+from softframe.misc.routines import classify_paragraphs
 
 tasks = [
     {

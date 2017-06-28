@@ -1,12 +1,19 @@
+"""
+CLASSIFICATION TRAINING
+=======================
+The serialized model created consider the project structure, os and class definitions.
+In case of changes in any of these topics please consider to recreate the model.
+"""
+
+from softframe.classification.tfdfc import *
+from softframe.classification.utils import *
 from sklearn.decomposition import TruncatedSVD
 from sklearn.ensemble import GradientBoostingClassifier
 from sklearn.externals import joblib
-from sklearn.feature_extraction.text import CountVectorizer, TfidfTransformer
+from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.pipeline import make_pipeline
-from classification.tfdfc import *
 
-import classification.lib as lib
-from classification.utils import *
+import softframe.classification.lib as lib
 
 train_dir = 'train/'
 test_dir = 'test/'

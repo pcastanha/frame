@@ -1,10 +1,11 @@
+from os.path import join
+
+from .norma import *
+from .utils import *
 from flask import Flask, request, jsonify
 from sklearn.externals import joblib
-from os.path import join
-from classification.utils import *
-from classification.norma import *
-import classification.lib as lib
 
+from . import lib
 
 app = Flask(__name__)
 

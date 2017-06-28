@@ -1,11 +1,9 @@
 # encoding: utf-8
-import sys
 import re
+
 from bson.objectid import ObjectId
-from classification.utils import *
-
-
 from pymongo import MongoClient
+
 client = MongoClient('172.23.227.73')
 db = client.test_database
 paragraphs = db.paragraphs
