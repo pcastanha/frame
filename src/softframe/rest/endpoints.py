@@ -94,13 +94,16 @@ class ClassifierAPI(Resource):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('document', type=str, required=True, help="No document provided.", location='json')
         self.reqparse.add_argument('convert', type=bool, required=False, default=False, location='json')
+        self.reqparse.add_argument('paragraph', type=bool, required=False, default=True, location='json')
         super(ClassifierAPI, self).__init__()
 
     def post(self):
         args = self.reqparse.parse_args()
         if args['convert'] is False:
-            response = classify_paragraphs(args['document'])
-
+            if args['paragraph'] is True:
+                response = classify_paragraphs(args['document'])
+            else:
+                response = classify_paragraphs(args['document'], use_paragraph=False)
         else:
             raise NotImplementedError
 
