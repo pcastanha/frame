@@ -3,7 +3,7 @@ from flask import jsonify, make_response
 from flask_httpauth import HTTPBasicAuth
 from flask_restful import Api
 
-from softframe.rest import Endpoints
+from softframe.rest.endpoints import Endpoints
 
 __version__ = "0.1.0"
 
