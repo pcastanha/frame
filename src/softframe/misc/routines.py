@@ -6,9 +6,10 @@ from time import time
 from softframe.classification import lib
 from softframe.classification.app import classificar_documento_para_tipo
 from softframe.processing.utils import Parser
-from selenium import webdriver
-
 from softframe.database import DatabaseConnector
+
+from lxml import etree
+from selenium import webdriver
 
 
 def read_and_convert(path):
@@ -75,8 +76,9 @@ def classify_paragraphs(html, use_paragraph=True):
     # 'phantomjs.exe' executable needs to be in PATH
     driver = webdriver.PhantomJS("../misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
 
-    element_tree = parser.read_html(html_string=html.strip())  # Convert html string to LXML ElementTree
+    element_tree = parser.read_html(html_string=html.strip())  # Convert html string to LXML HtmlElement
     paragraphs = element_tree.xpath(".//p")
+    tree = etree.ElementTree(element_tree)
 
     __, temp_path = tempfile.mkstemp(suffix=".html")  # Should point to the system temp directory
     with open(temp_path, encoding='utf8', mode='w') as f:
@@ -98,6 +100,7 @@ def classify_paragraphs(html, use_paragraph=True):
 
             for sentence in sentences:
                 driver.get(path)
+                javascript_string = ''
                 try:
                     text_to_find = sentence.strip()
                     classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
@@ -112,14 +115,11 @@ def classify_paragraphs(html, use_paragraph=True):
             driver.get(path)
             try:
                 text_to_find = raw_text.strip()
+                xpath = tree.getpath(paragraph)
                 classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
-                javascript_string = \
-                    json.dumps("window.find('{}'); return window.getSelection().getRangeAt(0);".format(text_to_find),
-                               ensure_ascii=False)
-                path_object = driver.execute_script(javascript_string[1:-1])  # Remove leading and trailing quotes
-                response.append({"prediction": classification, "path": path_object})
+                response.append({"prediction": classification, "path": xpath})
             except Exception as e:
-                print(javascript_string)
+                print(repr(e))
 
     os.close(__)
     os.remove(temp_path)
@@ -132,8 +132,8 @@ if __name__ == '__main__':
     with open("C:/Users/pedro.castanha/Downloads/file_1.html", encoding="utf8", mode='r') as f:
         html_string = f.read()
 
-    #locations = classify_paragraphs(html_string)
-    locations = None
+    locations = classify_paragraphs(html_string)
+    #locations = None
     t0 = time() - t0
 
     print("Done in {}".format(t0))
