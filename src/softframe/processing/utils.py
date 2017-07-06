@@ -22,8 +22,8 @@ class Parser(object):
 
         # The naming ``cli.resources`` will raise an error if this is file executed as script
         # Change to ``resources`` to debug as script
-        # self._PRE_TRAINED = load(BytesIO(get_data("cli.resources", "files/data.pickle")))
-        self._PRE_TRAINED = load(BytesIO(get_data("resources", "files/data.pickle")))
+        self._PRE_TRAINED = load(BytesIO(get_data("softframe.misc.resources", "files/data.pickle")))
+        # self._PRE_TRAINED = load(BytesIO(get_data("resources", "files/data.pickle")))
         self.tokenizer = PunktSentenceTokenizer(self._PRE_TRAINED)
 
     @staticmethod

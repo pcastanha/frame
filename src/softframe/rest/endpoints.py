@@ -103,7 +103,7 @@ class ClassifierAPI(Resource):
             if args['paragraph'] is True:
                 response = classify_paragraphs(args['document'])
             else:
-                response = classify_paragraphs(args['document'], use_paragraph=False)
+                response = classify_paragraphs(args['document'], use_paragraph=True)
         else:
             raise NotImplementedError
 

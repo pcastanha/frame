@@ -74,7 +74,8 @@ def read_and_convert(path):
 def classify_paragraphs(html, use_paragraph=True):
     parser = Parser()
     # 'phantomjs.exe' executable needs to be in PATH
-    driver = webdriver.PhantomJS("../misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
+    # driver = webdriver.PhantomJS("../misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
+    driver = webdriver.PhantomJS("src/softframe/misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
 
     element_tree = parser.read_html(html_string=html.strip())  # Convert html string to LXML HtmlElement
     paragraphs = element_tree.xpath(".//p")
