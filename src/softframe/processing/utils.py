@@ -99,6 +99,51 @@ class Parser(object):
 
         return result
 
+    @staticmethod
+    def find_xpath(paragraph_element, tree):
+        xpath = ''
+        path_dict = {}
+        current_text = ''
+        first_text = True
+        paragraph_result = []
+        texts = paragraph_element.xpath('.//text()')
+
+        for text in texts:
+            if text.strip() != '':
+                if text.is_tail:
+                    parent = text.getparent().getparent()
+                    xpath = tree.getpath(parent)
+                    if xpath not in path_dict.keys():
+                        path_dict[xpath] = 1
+
+                    if first_text:
+                        paragraph_result.append(('startPath', xpath + '/text()' + '[1]'))
+                        paragraph_result.append(('startOffset', 0))
+                        first_text = False
+
+                    else:
+                        path_dict[xpath] += 1
+
+                else:
+                    xpath = tree.getpath(text.getparent())
+                    if xpath not in path_dict.keys():
+                        path_dict[xpath] = 1
+
+                    else:
+                        path_dict[xpath] += 1
+
+                    if first_text:
+                        paragraph_result.append(('startPath', xpath + '/text()' + '[1]'))
+                        paragraph_result.append(('startOffset', 0))
+                        first_text = False
+
+            current_text = text.rstrip()
+
+        paragraph_result.append(('endPath', xpath + '/text()' + '[' + str(path_dict[xpath]) + ']'))
+        paragraph_result.append(('endOffset', len(current_text)))
+
+        return paragraph_result
+
 
 def main():
     pass

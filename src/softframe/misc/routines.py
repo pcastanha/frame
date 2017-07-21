@@ -116,9 +116,10 @@ def classify_paragraphs(html, use_paragraph=True):
             driver.get(path)
             try:
                 text_to_find = raw_text.strip()
-                xpath = tree.getpath(paragraph)
+                # xpath = tree.getpath(paragraph)
+                xpath = parser.find_xpath(paragraph, tree)
                 classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
-                response.append({"prediction": classification, "path": xpath})
+                response.append({"prediction": classification, "xpath": dict(xpath)})
             except Exception as e:
                 print(repr(e))
 
