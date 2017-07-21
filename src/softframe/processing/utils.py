@@ -116,13 +116,13 @@ class Parser(object):
                     if xpath not in path_dict.keys():
                         path_dict[xpath] = 1
 
+                    else:
+                        path_dict[xpath] += 1
+
                     if first_text:
                         paragraph_result.append(('startPath', xpath + '/text()' + '[1]'))
                         paragraph_result.append(('startOffset', 0))
                         first_text = False
-
-                    else:
-                        path_dict[xpath] += 1
 
                 else:
                     xpath = tree.getpath(text.getparent())
