@@ -97,7 +97,7 @@ class ClassifierAPI(Resource):
         self.reqparse.add_argument('paragraph', type=bool, required=False, default=True, location='json')
         super(ClassifierAPI, self).__init__()
 
-    def post(self):  # TODO: paragraph bool flag not working properly.
+    def post(self):
         args = self.reqparse.parse_args()
         if inputs.boolean(args['convert']) is False:
             if inputs.boolean(args['paragraph']) is True:
