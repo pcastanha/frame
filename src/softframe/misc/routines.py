@@ -113,7 +113,7 @@ def classify_paragraphs(html, use_paragraph=True):
                 except Exception as e:
                     print(javascript_string)
         else:
-            driver.get(path)
+            # driver.get(path)
             try:
                 text_to_find = raw_text.strip()
                 # xpath = tree.getpath(paragraph)

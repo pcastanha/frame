@@ -1,7 +1,7 @@
 from enum import Enum, unique
 
 from flask import abort
-from flask_restful import Resource, reqparse, fields, marshal
+from flask_restful import Resource, reqparse, fields, marshal, inputs
 
 from softframe.misc.routines import classify_paragraphs
 
@@ -99,11 +99,11 @@ class ClassifierAPI(Resource):
 
     def post(self):  # TODO: paragraph bool flag not working properly.
         args = self.reqparse.parse_args()
-        if args['convert'] is False:
-            if args['paragraph'] is True:
+        if inputs.boolean(args['convert']) is False:
+            if inputs.boolean(args['paragraph']) is True:
                 response = classify_paragraphs(args['document'])
             else:
-                response = classify_paragraphs(args['document'], use_paragraph=True)
+                response = classify_paragraphs(args['document'], use_paragraph=False)
         else:
             raise NotImplementedError
 
