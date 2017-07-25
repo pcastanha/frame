@@ -75,7 +75,7 @@ def classify_paragraphs(html, use_paragraph=True):
     parser = Parser()
     # 'phantomjs.exe' executable needs to be in PATH
     # driver = webdriver.PhantomJS("../misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
-    driver = webdriver.PhantomJS("src/softframe/misc/resources/files/phantomjs.exe")  # Headless browser used by selenium
+    # driver = webdriver.PhantomJS("src/softframe/misc/resources/files/phantomjs.exe")  # Headless browser
 
     element_tree = parser.read_html(html_string=html.strip())  # Convert html string to LXML HtmlElement
     paragraphs = element_tree.xpath(".//p")
@@ -100,7 +100,7 @@ def classify_paragraphs(html, use_paragraph=True):
             sentences = parser.sentence_extractor(raw_text)
 
             for sentence in sentences:
-                driver.get(path)
+                # driver.get(path)
                 javascript_string = ''
                 try:
                     text_to_find = sentence.strip()
@@ -108,7 +108,8 @@ def classify_paragraphs(html, use_paragraph=True):
                     javascript_string = \
                         json.dumps("window.find('{}'); return window.getSelection().getRangeAt(0);".format(text_to_find),
                                    ensure_ascii=False)
-                    path_object = driver.execute_script(javascript_string[1:-1])  # Remove leading and trailing quotes
+                    # path_object = driver.execute_script(javascript_string[1:-1])  # Remove leading and trailing quotes
+                    path_object = None
                     response.append({"prediction": classification, "path": path_object})
                 except Exception as e:
                     print(javascript_string)
@@ -119,7 +120,7 @@ def classify_paragraphs(html, use_paragraph=True):
                 # xpath = tree.getpath(paragraph)
                 xpath = parser.find_xpath(paragraph, tree)
                 classification = classificar_documento_para_tipo(text_to_find, lib.CLASSIFICADOR_INICIAL)  # Classify
-                response.append({"prediction": classification, "xpath": dict(xpath)})
+                response.append({"prediction": classification, "xpath": dict(xpath), "text": text_to_find})
             except Exception as e:
                 print(repr(e))
 
